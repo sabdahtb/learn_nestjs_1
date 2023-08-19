@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common'
-// import { CreateNinjaDto } from './dto/create-ninja.dto'
-// import { UpdateNinjaDto } from './dto/update-ninja.dto'
+
+import { CreateNinjaDto } from './dto'
 
 @Injectable()
 export class NinjaService {
-  // create(createNinjaDto: CreateNinjaDto) {
-  //   return 'This action adds a new ninja'
-  // }
+  private ninjas: CreateNinjaDto[] = [
+    { id: 0, name: 'maman', weapon: 'stars' },
+    { id: 1, name: 'kolan', weapon: 'nunchuks' },
+  ]
 
-  findAll() {
-    return []
+  create(ninja: CreateNinjaDto): CreateNinjaDto[] {
+    return [...this.ninjas, ninja]
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} ninja`
-  // }
+  findAll() {
+    return this.ninjas
+  }
 
-  // update(id: number, updateNinjaDto: UpdateNinjaDto) {
-  //   return `This action updates a #${id} ninja`
-  // }
+  findOne(id: number) {
+    const ninja = this.ninjas.find((it) => it.id === id)
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} ninja`
-  // }
+    if (!ninja) throw new Error()
+    return ninja
+  }
+
+  update(ninja: CreateNinjaDto): CreateNinjaDto[] {
+    return [...this.ninjas.filter((it) => it.id !== ninja.id), ninja]
+  }
+
+  remove(id: number) {
+    return this.ninjas.filter((it) => it.id !== id)
+  }
 }
